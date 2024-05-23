@@ -64,3 +64,12 @@
   height: 100%;
   width: 100%;
 }
+.resize-handle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
+  background-color: #000;
+}

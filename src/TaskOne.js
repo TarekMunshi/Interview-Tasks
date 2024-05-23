@@ -30,8 +30,6 @@ const Partitions = ({
   };
 
   const handleRemovePartitions = (indexToRemove) => {
-    // console.log(indexToRemove);
-    // console.log(colors);
     if (colors.length === 1 && onRemove) {
       onRemove();
     } else {
@@ -109,11 +107,13 @@ const Partitions = ({
 };
 
 const TaskOne = () => {
-  const [partitions, setPartitions] = useState([getPartitionsRandomColor()]);
+  const [partitions, setPartitions] = useState([
+    { id: 0, color: getPartitionsRandomColor() },
+  ]);
   const [remove, setRemove] = useState(false);
 
-  const handleRemoveRootPartition = () => {
-    setPartitions([]);
+  const handleRemoveRootPartition = (id) => {
+    setPartitions(partitions.filter((partition) => partition.id !== id));
   };
 
   return (
@@ -121,15 +121,17 @@ const TaskOne = () => {
       <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
         Recursive Partitioning
       </h1>
-      {partitions.length > 0 && (
-        <Partitions
-          initialColor={partitions[0]}
-          fullSize={true}
-          onRemove={handleRemoveRootPartition}
-          setRemove={setRemove}
-          remove={remove}
-        />
-      )}
+      {partitions.length > 0 &&
+        partitions.map((partition) => (
+          <Partitions
+            key={partition.id}
+            initialColor={partition.color}
+            fullSize={true}
+            onRemove={() => handleRemoveRootPartition(partition.id)}
+            setRemove={setRemove}
+            remove={remove}
+          />
+        ))}
     </div>
   );
 };
